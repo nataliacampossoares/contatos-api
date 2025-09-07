@@ -1,18 +1,22 @@
-import fastify from 'fastify';
+import Fastify from 'fastify';
 import { contatoRoutes } from './routes/contato.routes.js';
 
-const server = fastify({ logger: true });
+const fastify = Fastify({
+  logger: true
+});
 
-const port = 3000;
+// registra as rotas
+fastify.register(contatoRoutes);
 
-// Registramos nosso plugin de rotas e adicionamos um prefixo a todas elas
-server.register(contatoRoutes, { prefix: '/api' });
+// inicia o servidor
+const start = async () => {
+  try {
+    await fastify.listen({ port: 3000 });
+    console.log('Servidor rodando em http://localhost:3000');
+  } catch (err) {
+    fastify.log.error(err);
+    process.exit(1);
+  }
+};
 
-// Iniciar o Servidor
-server.listen({ port }, (error) => {    
-	if (error) {        
-		console.error("Erro ao iniciar o servidor:", error)
-		process.exit(1)
-	}    
-	console.log("Servidor executando na porta ", port);
-})
+start();

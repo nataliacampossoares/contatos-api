@@ -4,9 +4,11 @@ const contatoController = new ContatoController();
 
 export async function contatoRoutes(fastify, options) {
     
-  fastify.get('/contatos', 
-	  (request, reply) => contatoController.getContatos(request, reply));
-
+  fastify.get('/contatos', (request, reply) => {
+    contatoController.getContatos(request, reply);
+    console.log("OIIIIIIIIIIII TO AQUI");
+  });
+  
   fastify.get('/contatos/:id', 
 	  (request, reply) => contatoController.getContatoById(request, reply));
 
